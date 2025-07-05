@@ -1,69 +1,33 @@
-# React + TypeScript + Vite
+# AI Developer Test Frontend - Ecommerce app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Build a small e-commerce product catalog app and integrate one AI feature that enhances user interaction or decision-making.
 
-Currently, two official plugins are available:
+## Installation guide
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Dependencies - Node, preferably v22
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+git clone https://github.com/DhruvBShetty/aidevtest.git
+cd aidevtest
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Smart Product Search (Frontend)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Implemented with Open AI API with correct parameters, output, prompt engineering and roles to ensure that the user can describe the products they are interested in natural language and get relevant results.
+<p>
+<img src="https://github.com/user-attachments/assets/8cafabc6-8531-48b7-b93f-9d06f6136896" height="400" width="400" />
+</p>
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+
+### Tools used
+
+TypeScript, React, FastAPI, OpenAI, Pydantic
+Note: please refer to https://github.com/DhruvBShetty/aidevtest_backend for the backend
+
+### Assumptions
+
+Users want to describe their needs in natural language and get relevant results besides simply searching strictly by category, price, description etc. They want the products to show up immediately after describing their needs rather than just receive results in text and then search for them.
+
+For example:  A user can ask for all exercise and fitness related products under $100 and rated above 4 and those results will show up immediately.
