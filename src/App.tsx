@@ -143,14 +143,17 @@ const ProductList: React.FC = () => {
         }
     }
     else {
-        console.log(AIresponse);
-        AIresponse.forEach(word=>{
-        if(word.toLowerCase().includes(prod.name.toLowerCase())){
-        return prod}
-      })
-  
+      const response = AIresponse.some(word=>{
+        if(prod.name.toLowerCase().includes(word.toLowerCase())){
+          return prod
+        }
+      }
+      )
+      return response
+        
+      }
     }
-  }
+    
   
   )
   
@@ -171,11 +174,21 @@ const ProductList: React.FC = () => {
     const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
 
      e.preventDefault();
+
+     try{
       await axios.post(`${import.meta.env.VITE_APP_OPENAI}/api/productsearches`,{"productsearch":AIsearch}).then(res=>{
         console.log(res.data);
         const items = JSON.parse(res.data);
         setAIresponse(items.message);
       })
+    }
+    catch(error){
+       if (axios.isAxiosError(error)) {
+       console.error("Axios error:", error.response?.data || error.message);
+        } else {
+        console.error("Unexpected error:", error);
+       }
+    }
 
     }
   
@@ -219,11 +232,8 @@ const ProductList: React.FC = () => {
       ))}
       
     </div>
-    
-     
   </>
   
-   
   );
 };
 
