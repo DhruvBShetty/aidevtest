@@ -12,6 +12,7 @@ cd aidevtest
 npm install
 npm run dev
 ```
+VITE_APP_OPENAI in .env is configured assuming backend is hosted locally, adjust if backend hosted remotely.
 
 ## Smart Product Search (Frontend)
 
@@ -25,6 +26,8 @@ Implemented with Open AI API with correct parameters, output, prompt engineering
 
 TypeScript, React, FastAPI, OpenAI, Pydantic
 Note: please refer to https://github.com/DhruvBShetty/aidevtest_backend for the backend
+
+
 
 ### Assumptions
 
