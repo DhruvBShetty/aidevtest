@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import './App.css'
+import axios from 'axios';
 
 interface Product {
   name: string;
@@ -129,19 +130,57 @@ interface Product {
 const ProductList: React.FC = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [AIsearch,setAIsearch] = useState("");
+  const [AIresponse,setAIresponse] = useState(['']);
   
   const filteredProducts = storeproducts.filter((prod)=>{
-    if(prod.category.toLowerCase().includes(searchTerm.toLowerCase()) || prod.price.toString().includes(searchTerm)||searchTerm===""){
+    if(searchTerm==="" && AIresponse[0]==="y'w"){
       return prod
-    }})
+    }
+    else if(searchTerm!==""){
+       if(prod.category.toLowerCase().includes(searchTerm.toLowerCase()) || prod.price.toString().includes(searchTerm)){
+         return prod
+        }
+    }
+    else {
+        console.log(AIresponse);
+        AIresponse.forEach(word=>{
+        if(word.toLowerCase().includes(prod.name.toLowerCase())){
+        return prod}
+      })
+  
+    }
+  }
+  
+  )
+  
 
-    const handleChange=()=>(e:React.ChangeEvent<HTMLInputElement>)=>{
+    const handleSearchChange=()=>(e:React.ChangeEvent<HTMLInputElement>)=>{
+      setAIresponse(['']);
+      setAIsearch("");
       const search = e.target.value;
       setSearchTerm(search);
     }
+
+    const handleAIsearchChange=()=>(e:React.ChangeEvent<HTMLTextAreaElement>)=>{
+      setSearchTerm("");
+      const search = e.target.value
+        setAIsearch(search);
+    }
+
+    const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
+
+     e.preventDefault();
+      await axios.post(`${import.meta.env.VITE_APP_OPENAI}/api/productsearches`,{"productsearch":AIsearch}).then(res=>{
+        console.log(res.data);
+        const items = JSON.parse(res.data);
+        setAIresponse(items.message);
+      })
+
+    }
   
 
-
+  console.log(filteredProducts,"bro this is what I filtered");
   return (
 
     <>
@@ -149,9 +188,9 @@ const ProductList: React.FC = () => {
   type="search"
   id="search"
   name="search"
-  placeholder="Search products..."
+  placeholder="Search Category or Price..."
   value={searchTerm}
-  onChange={handleChange()}
+  onChange={handleSearchChange()}
   aria-label="Search products"
       style={{
         padding: "8px 12px",
@@ -163,13 +202,27 @@ const ProductList: React.FC = () => {
       }}
 />
     <div style={styles.container}>
+       <div className="sidebar-container">
+      <h2>Search with AI</h2>
+      <form onSubmit={handleSubmit} >
+        <textarea
+          value={AIsearch}
+          onChange={handleAIsearchChange()}
+          placeholder="Enter your text..."
+        />
+        <button type="submit">Find</button>
+      </form>
+    </div>
       
       {filteredProducts.map((prod, index) => (
         <ProductCard key={index} product={prod} />
       ))}
       
     </div>
+    
+     
   </>
+  
    
   );
 };
